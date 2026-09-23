@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sideroad: reliable trades for rural properties</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F1EA;font-family:'Work Sans',system-ui,sans-serif;color:#1F2A24}
+a{color:#1F2A24}a:hover{color:#8A3A10}
+html{scroll-behavior:smooth}
+@media (max-width: 900px){
+ header{flex-direction:column!important;gap:16px!important;padding:20px 24px!important}
+ header nav{flex-wrap:wrap!important;gap:16px!important;justify-content:center!important}
+ section{flex-direction:column!important;padding:56px 24px!important;gap:32px!important}
+ section > div{flex-basis:auto!important;width:100%!important;box-sizing:border-box}
+ [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+ h1{font-size:44px!important}
+ h2{font-size:34px!important}
+ #services > div:first-child{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+ footer{flex-direction:column!important;gap:24px!important;padding:40px 24px!important}
+}
+</style>
+</head>
+<body id="top">
+<div style="max-width: 1440px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F1EA; font-family: 'Work Sans', system-ui, sans-serif; color: #1F2A24">
+
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 24px 80px; border-bottom: 1px solid #D9D3C5">
+<a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #1F2A24">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1F2A24" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l10 10-10 10L2 12z"></path><path d="M12 7v10"></path><path d="M12 12l3-3"></path></svg>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 28px; font-weight: 700; letter-spacing: -0.5px">Sideroad</span>
+</a>
+<nav style="display: flex; align-items: center; gap: 36px; font-size: 16px; font-weight: 500">
+<a href="#services" style="text-decoration: none">Services</a>
+<a href="#how" style="text-decoration: none">How it works</a>
+<a href="#trades" style="text-decoration: none">For trades</a>
+<a href="#quote" style="text-decoration: none; background: #C4531A; color: #FFFFFF; padding: 14px 22px; border-radius: 8px; font-weight: 600">Get a quote</a>
+</nav>
+</header>
+
+<section style="display: flex; gap: 72px; align-items: center; padding: 88px 80px 96px">
+<div style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; gap: 28px">
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: #52625A">Erin · Hillsburgh · Wellington County</div>
+<h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 72px; line-height: 1.02; font-weight: 700; letter-spacing: -1.5px">Reliable trades for rural properties.</h1>
+<p style="margin: 0; font-size: 20px; line-height: 1.5; color: #3A4A40; max-width: 560px">Snow clearing, septic, tree work, furnaces and ponds for acreages outside town. Tell us the job and we'll match you with a vetted local trade who actually shows up.</p>
+<div id="quote" style="display: flex; flex-direction: column; gap: 18px; background: #FFFFFF; border: 1px solid #D9D3C5; border-radius: 14px; padding: 24px">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="svc" style="font-size: 14px; font-weight: 600">What do you need?</label>
+<select id="svc" style="height: 52px; border: 1px solid #A9A293; border-radius: 8px; padding: 0 14px; font-size: 16px; font-family: inherit; background: #FFFFFF; color: #1F2A24">
+<option>Snow clearing</option>
+<option>Septic</option>
+<option>Tree work</option>
+<option>Heating and HVAC</option>
+<option>Pond care</option>
+<option>Wells and water</option>
+<option>Something else</option>
+</select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="loc" style="font-size: 14px; font-weight: 600">Your road or postal code</label>
+<input id="loc" type="text" placeholder="e.g. 10th Line, Erin" style="height: 52px; box-sizing: border-box; border: 1px solid #A9A293; border-radius: 8px; padding: 0 14px; font-size: 16px; font-family: inherit; color: #1F2A24">
+</div>
+</div>
+<button type="button" style="height: 56px; background: #C4531A; color: #FFFFFF; border: 0; border-radius: 8px; font-size: 17px; font-weight: 600; font-family: inherit">Find me a trade</button>
+<div style="font-size: 14px; color: #4A5A50">Prefer to text? Send the job to [PHONE NUMBER] and we'll handle the rest.</div>
+</div>
+</div>
+
+<div style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; gap: 14px; background: #2F4A3A; border-radius: 20px; padding: 36px; color: #F4F1EA">
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: #C9D6CC">How a request looks</div>
+<div style="align-self: flex-end; max-width: 80%; background: #F4F1EA; color: #1F2A24; border-radius: 16px; padding: 14px 18px; font-size: 16px; line-height: 1.45">Laneway's buried again. Need it cleared before 7 tomorrow, it's about 300 m.</div>
+<div style="align-self: flex-start; max-width: 80%; background: #3E5E4B; border-radius: 16px; padding: 14px 18px; font-size: 16px; line-height: 1.45">Got it. [TRADE NAME] plows your road and has a slot at 5:30 am. Book it for [PRICE]?</div>
+<div style="align-self: flex-end; max-width: 80%; background: #F4F1EA; color: #1F2A24; border-radius: 16px; padding: 14px 18px; font-size: 16px; line-height: 1.45">Yes please</div>
+<div style="align-self: flex-start; max-width: 80%; background: #3E5E4B; border-radius: 16px; padding: 14px 18px; font-size: 16px; line-height: 1.45">Booked. You'll get a text when they're on the way, and again when it's done.</div>
+<div style="margin-top: 10px; padding-top: 18px; border-top: 1px solid #4F6E5C; font-size: 14px; color: #C9D6CC">Example conversation. Every trade on Sideroad is insured and vetted before their first job.</div>
+</div>
+</section>
+
+<section id="services" style="display: flex; flex-direction: column; gap: 48px; padding: 96px 80px; background: #FBFAF6">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px">
+<h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 48px; line-height: 1.08; font-weight: 700; letter-spacing: -1px; max-width: 620px">The jobs that are hard to book out here</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3A4A40; max-width: 460px">One place for the work that keeps an acreage running, from the first snowfall to spring thaw.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px; background: #F4F1EA; border-radius: 14px; padding: 28px">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F4A3A" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20"></path><path d="M3.3 7l17.4 10"></path><path d="M3.3 17L20.7 7"></path></svg>
+<div style="font-size: 22px; font-weight: 600">Snow clearing</div>
+<div style="font-size: 16px; line-height: 1.5; color: #4A5A50">Laneways, driveways and paths, on call or on a seasonal contract.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; background: #F4F1EA; border-radius: 14px; padding: 28px">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F4A3A" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><path d="M8 10V6h8v4"></path></svg>
+<div style="font-size: 22px; font-weight: 600">Septic</div>
+<div style="font-size: 16px; line-height: 1.5; color: #4A5A50">Pumping, inspections and repairs from crews who know rural systems.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; background: #F4F1EA; border-radius: 14px; padding: 28px">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F4A3A" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l6 9h-4l4 6H6l4-6H6z"></path><path d="M12 18v3"></path></svg>
+<div style="font-size: 22px; font-weight: 600">Tree work</div>
+<div style="font-size: 16px; line-height: 1.5; color: #4A5A50">Storm damage, hazard trees, pruning and clean-up by local arborists.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; background: #F4F1EA; border-radius: 14px; padding: 28px">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F4A3A" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 6 6.5 6 10.5a6 6 0 0 1-12 0C6 10 8.5 8.5 9 6c1.5 1.5 2 3 2 4 1-2 1-4 1-7z"></path></svg>
+<div style="font-size: 22px; font-weight: 600">Heating and HVAC</div>
+<div style="font-size: 16px; line-height: 1.5; color: #4A5A50">Furnace, heat pump and propane servicing before the cold sets in.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; background: #F4F1EA; border-radius: 14px; padding: 28px">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F4A3A" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"></path></svg>
+<div style="font-size: 22px; font-weight: 600">Pond care</div>
+<div style="font-size: 16px; line-height: 1.5; color: #4A5A50">Aeration, algae and duckweed control, spring opening and winter prep.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; background: #F4F1EA; border-radius: 14px; padding: 28px">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F4A3A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v7"></path><path d="M8 7c0 2 1.8 3 4 3s4-1 4-3"></path><path d="M5 13h14v7H5z"></path></svg>
+<div style="font-size: 22px; font-weight: 600">Wells and water</div>
+<div style="font-size: 16px; line-height: 1.5; color: #4A5A50">Pumps, pressure tanks, water testing and treatment systems.</div>
+</div>
+</div>
+</section>
+
+<section id="how" style="display: flex; flex-direction: column; gap: 48px; padding: 96px 80px; background: #2F4A3A; color: #F4F1EA">
+<h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 48px; line-height: 1.08; font-weight: 700; letter-spacing: -1px">How it works</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="width: 48px; height: 48px; border: 1.5px solid #F4F1EA; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600">1</div>
+<div style="font-size: 24px; font-weight: 600">Tell us the job</div>
+<div style="font-size: 17px; line-height: 1.55; color: #D5DFD8">Fill in the form or send a text. A photo helps, but it's not required.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="width: 48px; height: 48px; border: 1.5px solid #F4F1EA; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600">2</div>
+<div style="font-size: 24px; font-weight: 600">We match a local trade</div>
+<div style="font-size: 17px; line-height: 1.55; color: #D5DFD8">Someone vetted, insured and already working your area, with a clear price before they come out.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="width: 48px; height: 48px; border: 1.5px solid #F4F1EA; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 600">3</div>
+<div style="font-size: 24px; font-weight: 600">They show up</div>
+<div style="font-size: 17px; line-height: 1.55; color: #D5DFD8">You get a text when they're on the way and when it's done. If a trade doesn't show, we find you someone who will.</div>
+</div>
+</div>
+</section>
+
+<section style="display: flex; gap: 72px; padding: 96px 80px">
+<div style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 44px; line-height: 1.1; font-weight: 700; letter-spacing: -1px">What “vetted” means here</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #3A4A40; max-width: 520px">Anyone can list a phone number. We only send you trades we'd call to our own property.</p>
+</div>
+<div style="flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column">
+<div style="display: flex; gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid #D9D3C5; font-size: 19px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4531A" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+<span>Proof of insurance on file before their first job</span>
+</div>
+<div style="display: flex; gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid #D9D3C5; font-size: 19px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4531A" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+<span>References from property owners nearby</span>
+</div>
+<div style="display: flex; gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid #D9D3C5; font-size: 19px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4531A" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+<span>Clear quotes up front, no surprise call-out fees</span>
+</div>
+<div style="display: flex; gap: 16px; align-items: center; padding: 20px 0; border-bottom: 1px solid #D9D3C5; font-size: 19px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4531A" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+<span>Trades who no-show or overcharge are removed</span>
+</div>
+</div>
+</section>
+
+<section id="trades" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding: 0 80px 96px">
+<div style="display: flex; flex-direction: column; gap: 16px; background: #FFFFFF; border: 1px solid #D9D3C5; border-radius: 16px; padding: 40px">
+<h3 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 32px; font-weight: 700">Where we work</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.55; color: #3A4A40">Starting with Erin, Hillsburgh, Ballinafad and the rest of Wellington County. Further out? Leave your postal code and we'll let you know when we reach you.</p>
+<a href="#quote" style="align-self: flex-start; margin-top: 8px; font-size: 17px; font-weight: 600">Join the waitlist</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px; background: #C4531A; color: #FFFFFF; border-radius: 16px; padding: 40px">
+<h3 style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 32px; font-weight: 700">Run a trade business out here?</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.55">Steady local work without chasing leads or driving an hour between jobs. You set your area and your rates, and we handle the back-and-forth.</p>
+<a href="#trades" style="align-self: flex-start; margin-top: 8px; background: #FFFFFF; color: #1F2A24; padding: 14px 22px; border-radius: 8px; font-size: 17px; font-weight: 600; text-decoration: none">Join as a trade</a>
+</div>
+</section>
+
+<footer style="flex-grow: 1; display: flex; justify-content: space-between; align-items: flex-start; padding: 48px 80px; background: #1F2A24; color: #D5DFD8">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: Fraunces, Georgia, serif; font-size: 24px; font-weight: 700; color: #F4F1EA">Sideroad</span>
+<span style="font-size: 15px">Reliable trades for rural Ontario properties.</span>
+</div>
+<nav style="display: flex; gap: 32px; font-size: 15px">
+<a href="#top" style="color: #F4F1EA; text-decoration: none">About</a>
+<a href="#trades" style="color: #F4F1EA; text-decoration: none">For trades</a>
+<a href="#quote" style="color: #F4F1EA; text-decoration: none">Contact</a>
+<a href="#top" style="color: #F4F1EA; text-decoration: none">Privacy</a>
+</nav>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<% layout("./layout") %>
+<% const v = it.values, e = it.errors; %>
+<form class="card" method="post" action="/request" enctype="multipart/form-data" novalidate>
+<div class="eyebrow">Get a quote</div>
+<h1 class="page-title">Tell us the job</h1>
+<p class="lead">A few details and we'll match you with a vetted local trade. Prefer to text? Send the job to <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a>.</p>
+<% if (Object.keys(e).length) { %><div class="alert" role="alert">Please check the highlighted fields below.</div><% } %>
+
+<div class="grid2">
+<div class="field<%= e.service ? ' has-error' : '' %>">
+<label for="service">What do you need?</label>
+<select id="service" name="service" required>
+<% it.services.forEach(function (s) { %><option value="<%= s.slug %>"<%= v.service === s.slug ? ' selected' : '' %>><%= s.label %></option>
+<% }) %>
+</select>
+<%~ include("./partials/error", { msg: e.service }) %>
+</div>
+<div class="field<%= e.location ? ' has-error' : '' %>">
+<label for="location">Your road or town</label>
+<input id="location" name="location" type="text" value="<%= v.location || '' %>" placeholder="e.g. 10th Line, Erin" autocomplete="street-address" required>
+<%~ include("./partials/error", { msg: e.location }) %>
+</div>
+</div>
+
+<div class="field<%= e.postalCode ? ' has-error' : '' %>">
+<label for="postalCode">Postal code <span class="hint">(optional, helps us check we cover you)</span></label>
+<input id="postalCode" name="postalCode" type="text" value="<%= v.postalCode || '' %>" placeholder="e.g. N0B 1T0" autocomplete="postal-code" maxlength="10">
+<%~ include("./partials/error", { msg: e.postalCode }) %>
+</div>
+
+<div class="field<%= e.description ? ' has-error' : '' %>">
+<label for="description">Describe the job</label>
+<textarea id="description" name="description" placeholder="e.g. Laneway is about 300 m and needs clearing before 7 am." required><%= v.description || '' %></textarea>
+<%~ include("./partials/error", { msg: e.description }) %>
+</div>
+
+<div class="field<%= e.photo ? ' has-error' : '' %>">
+<label for="photo">Photo <span class="hint">(optional, 10 MB max)</span></label>
+<input id="photo" name="photo" type="file" accept="image/*">
+<%~ include("./partials/error", { msg: e.photo }) %>
+<% if (e.photo || Object.keys(e).length) { %><div class="hint">For your security we can't keep a photo between attempts, so please choose it again.</div><% } %>
+</div>
+
+<div class="section-label">Your details</div>
+<div class="field<%= e.name ? ' has-error' : '' %>">
+<label for="name">Name</label>
+<input id="name" name="name" type="text" value="<%= v.name || '' %>" autocomplete="name" required>
+<%~ include("./partials/error", { msg: e.name }) %>
+</div>
+<div class="grid2">
+<div class="field<%= e.mobile ? ' has-error' : '' %>">
+<label for="mobile">Mobile number</label>
+<input id="mobile" name="mobile" type="tel" value="<%= v.mobile || '' %>" placeholder="519-555-0100" autocomplete="tel" required>
+<%~ include("./partials/error", { msg: e.mobile }) %>
+</div>
+<div class="field<%= e.email ? ' has-error' : '' %>">
+<label for="email">Email</label>
+<input id="email" name="email" type="email" value="<%= v.email || '' %>" autocomplete="email">
+<%~ include("./partials/error", { msg: e.email }) %>
+</div>
+</div>
+<div class="field<%= e.preferredContact ? ' has-error' : '' %>">
+<span class="label">How should we contact you?</span>
+<div class="radios">
+<label><input type="radio" name="preferredContact" value="sms"<%= v.preferredContact !== 'email' ? ' checked' : '' %>> Text message</label>
+<label><input type="radio" name="preferredContact" value="email"<%= v.preferredContact === 'email' ? ' checked' : '' %>> Email</label>
+</div>
+<%~ include("./partials/error", { msg: e.preferredContact }) %>
+</div>
+
+<%~ include("./partials/consent", { text: it.consentText, checked: v.consent === 'yes', error: e.consent }) %>
+<%~ include("./partials/honeypot") %>
+<button class="btn" type="submit">Send my request</button>
+</form>

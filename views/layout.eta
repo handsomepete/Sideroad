@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= it.title %> | Sideroad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<%~ include("./partials/head-style") %>
+<%~ include("./partials/form-style") %>
+</head>
+<body id="top">
+<div style="max-width: 1440px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh; background: #F4F1EA; font-family: 'Work Sans', system-ui, sans-serif; color: #1F2A24">
+<%~ include("./partials/header") %>
+<main class="page">
+<%~ it.body %>
+</main>
+<%~ include("./partials/footer") %>
+</div>
+</body>
+</html>

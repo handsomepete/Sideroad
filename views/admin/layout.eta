@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title><%= it.title %> | Sideroad admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F1EA;font-family:'Work Sans',system-ui,sans-serif;color:#1F2A24;font-size:15px}
+a{color:#1F2A24}a:hover{color:#8A3A10}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 32px;background:#1F2A24;color:#F4F1EA;flex-wrap:wrap}
+.top a{color:#F4F1EA;text-decoration:none;font-weight:500}
+.brand{font-family:Fraunces,Georgia,serif;font-size:22px;font-weight:700}
+.top nav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.top nav a.on{border-bottom:2px solid #C4531A;padding-bottom:2px}
+.linkbtn{background:none;border:0;color:#C9D6CC;font:inherit;cursor:pointer;padding:0}
+main{padding:28px 32px 64px;max-width:1280px;margin:0 auto}
+h1{font-family:Fraunces,Georgia,serif;font-size:32px;margin:0 0 18px}
+h2{font-size:17px;margin:28px 0 10px}
+table{width:100%;border-collapse:collapse;background:#FFFFFF;border:1px solid #D9D3C5;border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #ECE7DC;vertical-align:top}
+th{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#52625A;background:#FBFAF6}
+tr:last-child td{border-bottom:0}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.filters label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:#52625A}
+input[type=text],input[type=password],select,textarea{font:inherit;border:1px solid #A9A293;border-radius:6px;padding:8px 10px;background:#FFFFFF;color:#1F2A24}
+textarea{width:100%;box-sizing:border-box;min-height:90px}
+button,.btn{font:inherit;font-weight:600;background:#C4531A;color:#FFFFFF;border:0;border-radius:6px;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+button.secondary{background:#2F4A3A}
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:#E6E1D5;white-space:nowrap}
+.b-NEW,.b-PENDING_REVIEW,.b-WAITING{background:#FBE3D6;color:#8A3A10}
+.b-CONTACTED,.b-MATCHED{background:#DDE8F3;color:#1D4466}
+.b-DONE,.b-APPROVED,.b-NOTIFIED,.b-in{background:#DCEBDF;color:#24543A}
+.b-CLOSED,.b-SPAM,.b-REJECTED,.b-INACTIVE,.b-REMOVED,.b-out{background:#E6E1D5;color:#52625A}
+.b-unknown{background:#FFF1C2;color:#6B5200}
+.b-warn{background:#F8D7D0;color:#8C1D0B}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px}
+.panel{background:#FFFFFF;border:1px solid #D9D3C5;border-radius:10px;padding:18px 20px}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0}
+dt{color:#52625A;font-weight:600}
+dd{margin:0;white-space:pre-wrap;word-break:break-word}
+.thread{display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:10px 14px;border-radius:14px;white-space:pre-wrap;word-break:break-word}
+.msg.in{align-self:flex-start;background:#F4F1EA}
+.msg.out{align-self:flex-end;background:#2F4A3A;color:#F4F1EA}
+.msg .meta{font-size:12px;opacity:.75;margin-top:4px}
+.alert{background:#F8D7D0;border:1px solid #E7A99B;color:#6B1405;border-radius:8px;padding:10px 14px;margin:10px 0}
+.muted{color:#52625A;font-size:13px}
+.photos{display:flex;gap:10px;flex-wrap:wrap}
+.photos img{width:160px;height:120px;object-fit:cover;border-radius:8px;border:1px solid #D9D3C5}
+.inline{display:inline-flex;gap:6px;align-items:center}
+@media (max-width: 900px){.grid{grid-template-columns:1fr}main{padding:20px 16px}.top{padding:12px 16px}table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<% if (it.admin) { %>
+<div class="top">
+<span class="brand">Sideroad admin</span>
+<nav>
+<a href="/admin/requests" class="<%= it.nav === 'requests' ? 'on' : '' %>">Requests</a>
+<a href="/admin/trades" class="<%= it.nav === 'trades' ? 'on' : '' %>">Trades</a>
+<a href="/admin/waitlist" class="<%= it.nav === 'waitlist' ? 'on' : '' %>">Waitlist</a>
+<a href="/admin/messages" class="<%= it.nav === 'messages' ? 'on' : '' %>">All messages</a>
+<form method="post" action="/admin/logout" class="inline"><input type="hidden" name="_csrf" value="<%= it.admin.csrf %>"><button class="linkbtn" type="submit">Log out (<%= it.admin.name %>)</button></form>
+</nav>
+</div>
+<% } %>
+<main>
+<%~ it.body %>
+</main>
+</body>
+</html>

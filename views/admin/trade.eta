@@ -1,0 +1,26 @@
+<% layout("./layout") %>
+<% const t = it.t; %>
+<p><a href="/admin/trades">← Trades</a></p>
+<h1><%= t.businessName %> <span class="badge b-<%= t.status %>"><%= t.status %></span></h1>
+<div class="grid">
+<div>
+<div class="panel">
+<dl>
+<dt>Status</dt><dd><%~ include("./partials-status-form", { action: '/admin/trades/' + t.id + '/status', csrf: it.admin.csrf, statuses: it.statuses, current: t.status }) %></dd>
+<dt>Contact</dt><dd><%= t.contactName %></dd>
+<dt>Mobile</dt><dd><%= it.formatPhone(t.mobile) %><% if (it.optOut) { %> <span class="badge b-warn">STOP</span><% } %></dd>
+<dt>Email</dt><dd><a href="mailto:<%= t.email %>"><%= t.email %></a></dd>
+<dt>Services</dt><dd><%= t.services.map(it.serviceLabel).join(', ') %></dd>
+<dt>Towns</dt><dd><%= t.towns.join(', ') || '(none)' %></dd>
+<dt>Insurance</dt><dd><%= t.insuranceProvider %>, expires <%= t.insuranceExpiry %><% if (t.insuranceExpiry < it.today) { %> <span class="badge b-warn">EXPIRED</span><% } %></dd>
+<dt>Notes</dt><dd><%= t.notes || '' %></dd>
+<dt>Signed up</dt><dd><%= it.fmt(t.createdAt) %></dd>
+</dl>
+</div>
+<%~ include("./partials-consents", { rows: it.consents, fmt: it.fmt }) %>
+<%~ include("./partials-audit", { rows: it.auditRows, fmt: it.fmt }) %>
+</div>
+<div>
+<%~ include("./partials-thread", { thread: it.thread, fmt: it.fmt, formatPhone: it.formatPhone, optOut: it.optOut, phone: t.mobile, replyError: it.replyError, draft: it.draft, csrf: it.admin.csrf, action: '/admin/trades/' + t.id + '/reply' }) %>
+</div>
+</div>

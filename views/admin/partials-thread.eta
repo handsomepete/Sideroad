@@ -1,0 +1,24 @@
+<h2 id="thread">Messages</h2>
+<div class="panel">
+<div class="thread">
+<% if (!it.thread.length) { %><div class="muted">No messages yet.</div><% } %>
+<% it.thread.forEach(function (m) { %>
+<div class="msg <%= m.direction %>"><%= m.body || '(no text)' %>
+<div class="meta"><%= it.fmt(m.createdAt) %><% if (m.direction === 'out') { %> · <%= m.sentBy || '' %> · <%= m.status %><% if (m.errorCode) { %> (error <%= m.errorCode %>)<% } %><% } %><% if (m.mediaCount) { %> · <%= m.mediaCount %> attachment<%= m.mediaCount > 1 ? 's' : '' %><% } %></div>
+</div>
+<% }) %>
+</div>
+<% if (it.optOut) { %>
+<div class="alert">This number replied STOP on <%= it.fmt(it.optOut.optedOutAt) %>. You can't text them until they reply START.</div>
+<% } else if (!it.phone) { %>
+<div class="alert">No mobile number on file.</div>
+<% } else { %>
+<% if (it.replyError) { %><div class="alert"><%= it.replyError %></div><% } %>
+<form method="post" action="<%= it.action %>" style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+<input type="hidden" name="_csrf" value="<%= it.csrf %>">
+<label class="muted" for="reply-body">Text <%= it.formatPhone(it.phone) %></label>
+<textarea id="reply-body" name="body" maxlength="1600" required><%= it.draft %></textarea>
+<div><button type="submit">Send text</button></div>
+</form>
+<% } %>
+</div>

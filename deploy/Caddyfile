@@ -1,0 +1,9 @@
+# Add this block to /etc/caddy/Caddyfile (replace the domain). Caddy gets the HTTPS certificate itself.
+# Caddy must be in the sideroad group to use the socket:  usermod -aG sideroad caddy && systemctl restart caddy
+sideroad.example.ca {
+	encode gzip
+	request_body {
+		max_size 12MB
+	}
+	reverse_proxy unix//run/sideroad/sideroad.sock
+}

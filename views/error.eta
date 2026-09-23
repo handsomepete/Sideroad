@@ -1,0 +1,6 @@
+<% layout("./layout") %>
+<div class="card">
+<h1 class="page-title"><%= it.heading %></h1>
+<p class="lead"><%= it.message %></p>
+<p><a href="/">Back to Sideroad</a></p>
+</div>

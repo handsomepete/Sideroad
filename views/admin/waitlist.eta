@@ -1,0 +1,26 @@
+<% layout("./layout") %>
+<% const f = it.filters; %>
+<h1>Waitlist</h1>
+<form class="filters" method="get" action="/admin/waitlist">
+<label>Status
+<select name="status"><option value="">Any</option>
+<% it.statuses.forEach(function (s) { %><option value="<%= s %>"<%= f.status === s ? ' selected' : '' %>><%= s %></option><% }) %>
+</select></label>
+<label>Search<input type="text" name="q" value="<%= f.q || '' %>" placeholder="postal code, name, email"></label>
+<button type="submit" class="secondary">Filter</button>
+</form>
+<table>
+<thead><tr><th>Postal code</th><th>Who</th><th>Wants</th><th>Joined</th><th>Status</th></tr></thead>
+<tbody>
+<% if (!it.rows.length) { %><tr><td colspan="5" class="muted">Nobody yet.</td></tr><% } %>
+<% it.rows.forEach(function (w) { %>
+<tr>
+<td><strong><%= w.postalCode || '' %></strong><% if (w.locationText) { %><br><span class="muted"><%= w.locationText %></span><% } %></td>
+<td><%= w.name || '' %><br><span class="muted"><%= w.email || '' %> <%= it.formatPhone(w.mobile) %></span></td>
+<td><%= w.service ? it.serviceLabel(w.service) : '' %></td>
+<td><%= it.fmt(w.createdAt) %></td>
+<td><%~ include("./partials-status-form", { action: '/admin/waitlist/' + w.id + '/status', csrf: it.admin.csrf, statuses: it.statuses, current: w.status }) %></td>
+</tr>
+<% }) %>
+</tbody>
+</table>

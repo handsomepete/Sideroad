@@ -1,0 +1,4 @@
+<div class="field<%= it.error ? ' has-error' : '' %>">
+<label class="consent"><input type="checkbox" name="consent" value="yes"<%= it.checked ? ' checked' : '' %> required> <span><%= it.text %></span></label>
+<%~ include("./error", { msg: it.error }) %>
+</div>

@@ -1,0 +1,10 @@
+<h2>Consent (CASL)</h2>
+<div class="panel">
+<% if (!it.rows.length) { %><div class="muted">No consent on record.</div><% } %>
+<% it.rows.forEach(function (c) { %>
+<div style="margin-bottom:10px">
+<div><strong><%= c.channels.join(' + ') %></strong> · <%= it.fmt(c.givenAt) %> · <%= c.source %> · <%= c.wordingVersion %><% if (c.withdrawnAt) { %> · <span class="badge b-warn">withdrawn <%= it.fmt(c.withdrawnAt) %></span><% } %></div>
+<div class="muted">"<%= c.wording %>"<% if (c.ip) { %> (IP <%= c.ip %>)<% } %></div>
+</div>
+<% }) %>
+</div>

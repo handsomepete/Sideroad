@@ -1,0 +1,16 @@
+<style>
+body{margin:0;background:#F4F1EA;font-family:'Work Sans',system-ui,sans-serif;color:#1F2A24}
+a{color:#1F2A24}a:hover{color:#8A3A10}
+html{scroll-behavior:smooth}
+@media (max-width: 900px){
+ header{flex-direction:column!important;gap:16px!important;padding:20px 24px!important}
+ header nav{flex-wrap:wrap!important;gap:16px!important;justify-content:center!important}
+ section{flex-direction:column!important;padding:56px 24px!important;gap:32px!important}
+ section > div{flex-basis:auto!important;width:100%!important;box-sizing:border-box}
+ [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+ h1{font-size:44px!important}
+ h2{font-size:34px!important}
+ #services > div:first-child{flex-direction:column!important;align-items:flex-start!important;gap:16px!important}
+ footer{flex-direction:column!important;gap:24px!important;padding:40px 24px!important}
+}
+</style>

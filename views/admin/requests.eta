@@ -1,0 +1,39 @@
+<% layout("./layout") %>
+<% const f = it.filters; %>
+<h1>Requests</h1>
+<form class="filters" method="get" action="/admin/requests">
+<label>Status
+<select name="status">
+<option value=""<%= !f.status ? ' selected' : '' %>>Open (not done/closed/spam)</option>
+<option value="all"<%= f.status === 'all' ? ' selected' : '' %>>All</option>
+<% it.statuses.forEach(function (s) { %><option value="<%= s %>"<%= f.status === s ? ' selected' : '' %>><%= s %> (<%= it.counts[s] || 0 %>)</option><% }) %>
+</select></label>
+<label>Service
+<select name="service"><option value="">Any</option>
+<% it.services.forEach(function (s) { %><option value="<%= s.slug %>"<%= f.service === s.slug ? ' selected' : '' %>><%= s.label %></option><% }) %>
+</select></label>
+<label>Source
+<select name="source"><option value="">Any</option><option value="web"<%= f.source === 'web' ? ' selected' : '' %>>Web</option><option value="sms"<%= f.source === 'sms' ? ' selected' : '' %>>Text</option></select></label>
+<label>Coverage
+<select name="coverage"><option value="">Any</option><option value="in"<%= f.coverage === 'in' ? ' selected' : '' %>>In area</option><option value="unknown"<%= f.coverage === 'unknown' ? ' selected' : '' %>>Needs checking</option></select></label>
+<label>Search<input type="text" name="q" value="<%= f.q || '' %>" placeholder="name, phone, road, text"></label>
+<button type="submit" class="secondary">Filter</button>
+</form>
+<table>
+<thead><tr><th>#</th><th>Status</th><th>Service</th><th>Who</th><th>Where</th><th>Source</th><th>Received</th><th>Last activity</th></tr></thead>
+<tbody>
+<% if (!it.rows.length) { %><tr><td colspan="8" class="muted">No requests match.</td></tr><% } %>
+<% it.rows.forEach(function (r) { %>
+<tr>
+<td><a href="/admin/requests/<%= r.id %>"><strong>#<%= r.id %></strong></a></td>
+<td><span class="badge b-<%= r.status %>"><%= r.status %></span></td>
+<td><%= it.serviceLabel(r.service) %></td>
+<td><a href="/admin/requests/<%= r.id %>"><%= r.name || '(no name)' %></a><br><span class="muted"><%= it.formatPhone(r.mobile) %></span></td>
+<td><%= r.locationText || '' %> <%= r.postalCode || '' %><br><span class="badge b-<%= r.coverage %>"><%= r.coverage === 'unknown' ? 'check area' : r.coverage %></span></td>
+<td><%= r.source === 'sms' ? 'Text' : 'Web' %></td>
+<td><%= it.fmt(r.createdAt) %></td>
+<td><%= it.fmt(r.updatedAt) %></td>
+</tr>
+<% }) %>
+</tbody>
+</table>

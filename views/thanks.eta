@@ -1,0 +1,8 @@
+<% layout("./layout") %>
+<div class="card">
+<div class="eyebrow"><%= it.eyebrow %></div>
+<h1 class="page-title"><%= it.heading %></h1>
+<p class="lead"><%= it.message %></p>
+<% if (it.showText) { %><p class="lead">Need to add something, like a photo? Text <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a>.</p><% } %>
+<p><a href="/">Back to Sideroad</a></p>
+</div>

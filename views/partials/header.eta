@@ -1,0 +1,12 @@
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 24px 80px; border-bottom: 1px solid #D9D3C5">
+<a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #1F2A24">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1F2A24" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l10 10-10 10L2 12z"></path><path d="M12 7v10"></path><path d="M12 12l3-3"></path></svg>
+<span style="font-family: Fraunces, Georgia, serif; font-size: 28px; font-weight: 700; letter-spacing: -0.5px">Sideroad</span>
+</a>
+<nav style="display: flex; align-items: center; gap: 36px; font-size: 16px; font-weight: 500">
+<a href="/#services" style="text-decoration: none">Services</a>
+<a href="/#how" style="text-decoration: none">How it works</a>
+<a href="/#trades" style="text-decoration: none">For trades</a>
+<a href="/#quote" style="text-decoration: none; background: #C4531A; color: #FFFFFF; padding: 14px 22px; border-radius: 8px; font-weight: 600">Get a quote</a>
+</nav>
+</header>

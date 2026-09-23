@@ -1,0 +1,35 @@
+<% layout("./layout") %>
+<% const f = it.filters; %>
+<h1>Trades</h1>
+<form class="filters" method="get" action="/admin/trades">
+<label>Status
+<select name="status"><option value="">Any</option>
+<% it.statuses.forEach(function (s) { %><option value="<%= s %>"<%= f.status === s ? ' selected' : '' %>><%= s %></option><% }) %>
+</select></label>
+<label>Service
+<select name="service"><option value="">Any</option>
+<% it.tradeServices.forEach(function (s) { %><option value="<%= s.slug %>"<%= f.service === s.slug ? ' selected' : '' %>><%= s.label %></option><% }) %>
+</select></label>
+<label>Town
+<select name="town"><option value="">Any</option>
+<% it.towns.forEach(function (t) { %><option value="<%= t %>"<%= f.town === t ? ' selected' : '' %>><%= t %></option><% }) %>
+</select></label>
+<label>Search<input type="text" name="q" value="<%= f.q || '' %>" placeholder="business, name, phone"></label>
+<button type="submit" class="secondary">Filter</button>
+</form>
+<table>
+<thead><tr><th>Business</th><th>Status</th><th>Services</th><th>Towns</th><th>Insurance</th><th>Signed up</th></tr></thead>
+<tbody>
+<% if (!it.rows.length) { %><tr><td colspan="6" class="muted">No trades match.</td></tr><% } %>
+<% it.rows.forEach(function (t) { %>
+<tr>
+<td><a href="/admin/trades/<%= t.id %>"><strong><%= t.businessName %></strong></a><br><span class="muted"><%= t.contactName %> · <%= it.formatPhone(t.mobile) %></span></td>
+<td><span class="badge b-<%= t.status %>"><%= t.status %></span></td>
+<td><%= t.services.map(it.serviceLabel).join(', ') %></td>
+<td><%= t.towns.join(', ') %></td>
+<td><%= t.insuranceProvider %><br><span class="<%= t.insuranceExpiry < it.today ? 'badge b-warn' : 'muted' %>"><%= t.insuranceExpiry < it.today ? 'EXPIRED ' : 'to ' %><%= t.insuranceExpiry %></span></td>
+<td><%= it.fmt(t.createdAt) %></td>
+</tr>
+<% }) %>
+</tbody>
+</table>

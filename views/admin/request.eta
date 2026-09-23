@@ -1,0 +1,40 @@
+<% layout("./layout") %>
+<% const r = it.r, h = it.h; %>
+<p><a href="/admin/requests">← Requests</a></p>
+<h1>Request #<%= r.id %> <span class="badge b-<%= r.status %>"><%= r.status %></span></h1>
+<div class="grid">
+<div>
+<div class="panel">
+<dl>
+<dt>Status</dt><dd><%~ include("./partials-status-form", { action: '/admin/requests/' + r.id + '/status', csrf: it.admin.csrf, statuses: it.statuses, current: r.status }) %></dd>
+<dt>Service</dt><dd><%= it.serviceLabel(r.service) %></dd>
+<dt>Location</dt><dd><%= r.locationText || '(not given)' %><%= r.postalCode ? ' · ' + r.postalCode : '' %><%= r.town && (r.locationText || '').indexOf(r.town) < 0 ? ' · ' + r.town : '' %></dd>
+<dt>Coverage</dt><dd><span class="badge b-<%= r.coverage %>"><%= r.coverage === 'unknown' ? 'check area' : r.coverage %></span></dd>
+<dt>Source</dt><dd><%= r.source === 'sms' ? 'Text message' : 'Web form' %></dd>
+<dt>Received</dt><dd><%= it.fmt(r.createdAt) %></dd>
+<dt>Description</dt><dd><%= r.description || '' %></dd>
+</dl>
+</div>
+<h2>Homeowner</h2>
+<div class="panel">
+<dl>
+<dt>Name</dt><dd><%= h.name || '(unknown)' %></dd>
+<dt>Mobile</dt><dd><%= it.formatPhone(h.mobile) %><% if (it.optOut) { %> <span class="badge b-warn">STOP</span><% } %></dd>
+<dt>Email</dt><dd><% if (h.email) { %><a href="mailto:<%= h.email %>"><%= h.email %></a><% } else { %>(none)<% } %></dd>
+<dt>Prefers</dt><dd><%= h.preferredContact === 'email' ? 'Email' : h.preferredContact === 'sms' ? 'Text' : '(not said)' %></dd>
+<% if (it.otherRequests.length) { %><dt>Other requests</dt><dd><% it.otherRequests.forEach(function (o) { %><a href="/admin/requests/<%= o.id %>">#<%= o.id %></a> <%= it.serviceLabel(o.service) %> (<%= o.status %>)<br><% }) %></dd><% } %>
+</dl>
+</div>
+<% if (it.photos.length) { %>
+<h2>Photos</h2>
+<div class="panel photos">
+<% it.photos.forEach(function (p) { %><a href="/admin/photos/<%= p.id %>" target="_blank" rel="noopener"><% if (p.mimeType === 'image/heic') { %>HEIC photo #<%= p.id %> (download)<% } else { %><img src="/admin/photos/<%= p.id %>" alt="Photo <%= p.id %>"><% } %></a><% }) %>
+</div>
+<% } %>
+<%~ include("./partials-consents", { rows: it.consents, fmt: it.fmt }) %>
+<%~ include("./partials-audit", { rows: it.auditRows, fmt: it.fmt }) %>
+</div>
+<div>
+<%~ include("./partials-thread", { thread: it.thread, fmt: it.fmt, formatPhone: it.formatPhone, optOut: it.optOut, phone: h.mobile, replyError: it.replyError, draft: it.draft, csrf: it.admin.csrf, action: '/admin/requests/' + r.id + '/reply' }) %>
+</div>
+</div>
