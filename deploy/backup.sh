@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Nightly backup of the database and uploaded photos. Run as the sideroad user from cron:
-#   15 3 * * * /opt/sideroad/deploy/backup.sh
+#   15 3 * * * /opt/sideroad/app/deploy/backup.sh
 # Copy /var/backups/sideroad somewhere off the server too (e.g. rclone to object storage).
 set -euo pipefail
 DEST=/var/backups/sideroad

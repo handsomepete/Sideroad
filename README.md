@@ -20,7 +20,7 @@ admin dashboard. The full brief is in [docs/SPEC.md](docs/SPEC.md).
 
 TypeScript on Node 22, Fastify, server-rendered Eta templates (no frontend build, no client JS),
 Postgres through Drizzle ORM, Twilio for SMS, Nodemailer over SMTP for email, and Vitest for tests.
-It deploys to one VPS with Caddy for HTTPS and systemd running the app as a non-root user.
+It runs on the existing Hetzner server alongside Nox, fenced off as its own user behind a Unix socket.
 See [deploy/DEPLOY.md](deploy/DEPLOY.md).
 
 ## Run it locally

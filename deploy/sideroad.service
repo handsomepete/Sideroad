@@ -1,29 +1,61 @@
 # /etc/systemd/system/sideroad.service
-# No secrets in this file: the app reads /opt/sideroad/.env itself (mode 600, owned by sideroad).
+# No secrets in this file: the app reads /opt/sideroad/app/.env itself (mode 600, owned by sideroad).
+# This server is shared with other services, so Sideroad is fenced in: it listens on a Unix socket
+# only its reverse proxy can use, can't see other processes, can't reach anything on localhost,
+# private networks or Docker, and can only write to its upload directory.
 [Unit]
 Description=Sideroad web app
-After=network.target postgresql.service
-Wants=postgresql.service
+After=network-online.target postgresql.service
+Wants=network-online.target postgresql.service
 
 [Service]
 Type=simple
 User=sideroad
 Group=sideroad
-WorkingDirectory=/opt/sideroad
-ExecStart=/usr/bin/node dist/index.js
+WorkingDirectory=/opt/sideroad/app
+ExecStart=/opt/sideroad/node/bin/node dist/index.js
 Restart=on-failure
 RestartSec=5
 
-# Hardening: the app can only write to its upload directory.
+# Socket at /run/sideroad/sideroad.sock, readable by the sideroad group (the proxy user joins it).
+RuntimeDirectory=sideroad
+RuntimeDirectoryMode=0750
+UMask=0007
+
+# Filesystem
 NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
 PrivateTmp=true
 PrivateDevices=true
-ProtectKernelTunables=true
-ProtectControlGroups=true
-RestrictSUIDSGID=true
 ReadWritePaths=/var/lib/sideroad
+InaccessiblePaths=-/var/run/docker.sock -/run/docker.sock -/var/lib/docker -/var/www -/root -/opt/precheckmd
+
+# Other processes (and their environment variables) are invisible
+ProtectProc=invisible
+ProcSubset=pid
+
+# Network: Postgres is reached over its Unix socket; outbound internet is allowed for Twilio and SMTP.
+# Everything local is blocked: Nox's Redis, Postgres, MCP server and Docker networks.
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=localhost link-local multicast 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 100.64.0.0/10
+# systemd-resolved's stub resolver, if the server uses it (see preflight "DNS resolvers").
+IPAddressAllow=127.0.0.53/32
+# The server's own public IPs are denied in a drop-in: /etc/systemd/system/sideroad.service.d/server-ip.conf
+
+# Kernel and privileges
+CapabilityBoundingSet=
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+SystemCallArchitectures=native
 
 [Install]
 WantedBy=multi-user.target

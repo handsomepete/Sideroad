@@ -8,6 +8,8 @@ const schema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   HOST: z.string().default("127.0.0.1"),
   PORT: z.coerce.number().int().positive().default(3000),
+  // If set, listen on this Unix socket instead of HOST:PORT (used on the shared server, see deploy/DEPLOY.md).
+  SOCKET_PATH: z.string().optional(),
   // Public origin as seen by browsers and Twilio, e.g. https://sideroad.ca.
   // Twilio signs the full public URL, so this must match exactly.
   PUBLIC_BASE_URL: z.url().transform((u) => u.replace(/\/+$/, "")),

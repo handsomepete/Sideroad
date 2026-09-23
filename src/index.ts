@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { chmod, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { buildApp } from "./app.js";
 import { loadConfig } from "./config.js";
@@ -40,4 +41,11 @@ const shutdown = async () => {
 process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
-await app.listen({ host: config.HOST, port: config.PORT });
+if (config.SOCKET_PATH) {
+  // Only the reverse proxy (in the sideroad group) can connect; nothing is exposed on a TCP port.
+  await rm(config.SOCKET_PATH, { force: true });
+  await app.listen({ path: config.SOCKET_PATH });
+  await chmod(config.SOCKET_PATH, 0o660);
+} else {
+  await app.listen({ host: config.HOST, port: config.PORT });
+}
