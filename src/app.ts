@@ -39,13 +39,12 @@ const CSP = [
 
 /**
  * Trust X-Forwarded-For only from a reverse proxy on this machine (loopback, or the Unix socket, which
- * has no address), and only `hops` entries deep. The client's own X-Forwarded-For value is never
- * believed, so it can't dodge rate limits by inventing addresses.
+ * has no address), and only the one entry that proxy appended. Anything further left came from the
+ * client and is never believed, so it can't dodge rate limits by inventing addresses.
  */
-export function localProxyTrust(hops: number) {
+export function localProxyTrust() {
   const LOCAL = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1"]);
-  return (address: string | undefined, hop: number) =>
-    hop < hops && (hop > 0 || !address || LOCAL.has(address));
+  return (address: string | undefined, hop: number) => hop === 0 && (!address || LOCAL.has(address));
 }
 
 export interface AppOptions {
@@ -57,7 +56,7 @@ export interface AppOptions {
 export async function buildApp(deps: Deps, opts: AppOptions = {}) {
   const app = Fastify({
     logger: opts.logger ?? false,
-    trustProxy: deps.config.TRUST_PROXY > 0 ? localProxyTrust(deps.config.TRUST_PROXY) : false,
+    trustProxy: deps.config.TRUST_PROXY === 1 ? localProxyTrust() : false,
     bodyLimit: 1024 * 1024,
   });
   app.decorate("deps", deps);

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { parseEnv } from "node:util";
 import { afterAll, describe, expect, it } from "vitest";
 import { localProxyTrust } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
@@ -24,17 +26,26 @@ describe("config", () => {
     expect(() => loadConfig({ ...base, SMTP_URL: "smtp://x" })).toThrow(/ADMIN_NOTIFY_EMAIL: Email alerts is half set up/);
   });
 
-  it("reads TRUST_PROXY as a hop count", () => {
+  it("reads TRUST_PROXY as on/off and refuses more than one hop", () => {
     expect(loadConfig(base).TRUST_PROXY).toBe(1);
     expect(loadConfig({ ...base, TRUST_PROXY: "true" }).TRUST_PROXY).toBe(1);
     expect(loadConfig({ ...base, TRUST_PROXY: "false" }).TRUST_PROXY).toBe(0);
-    expect(loadConfig({ ...base, TRUST_PROXY: "2" }).TRUST_PROXY).toBe(2);
+    expect(loadConfig({ ...base, TRUST_PROXY: "0" }).TRUST_PROXY).toBe(0);
+    expect(() => loadConfig({ ...base, TRUST_PROXY: "2" })).toThrow(/TRUST_PROXY/);
+  });
+
+  it("starts from a copy of .env.example with only the required values filled in", () => {
+    const example = parseEnv(readFileSync(new URL("../.env.example", import.meta.url), "utf8"));
+    const c = loadConfig({ ...example, SESSION_SECRET: "x".repeat(40), ADMIN_PASSWORD_HASH: "scrypt$abc$def" });
+    expect(c.SMTP_URL).toBeUndefined();
+    expect(c.MAIL_FROM).toBeUndefined();
+    expect(c.TWILIO_ACCOUNT_SID).toBeUndefined();
   });
 });
 
 describe("client IP behind the reverse proxy", () => {
   it("trusts only a local peer, one hop deep", () => {
-    const trust = localProxyTrust(1);
+    const trust = localProxyTrust();
     expect(trust("127.0.0.1", 0)).toBe(true);
     expect(trust(undefined, 0)).toBe(true); // Unix socket
     expect(trust("198.51.100.7", 0)).toBe(false);

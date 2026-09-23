@@ -4,12 +4,12 @@ import { z } from "zod";
 const optional = <T extends z.ZodType>(inner: T) =>
   z.preprocess((v) => (typeof v === "string" && v.trim() === "" ? undefined : v), inner.optional());
 
-// How many reverse proxies sit in front of the app. Only that many X-Forwarded-For hops are trusted,
-// so a client can't pick its own IP by sending the header itself. "true" means one, "false" none.
+// Whether a reverse proxy on this machine sits in front of the app (1) or not (0). Only the single
+// X-Forwarded-For entry that proxy adds is trusted. Deeper entries can't be verified, so a client
+// could plant any address there; that's why values above 1 are refused rather than supported.
 const proxyHops = z
-  .string()
-  .regex(/^(true|false|\d)$/, "a number of proxy hops (0-9), or true/false")
-  .transform((v) => (v === "true" ? 1 : v === "false" ? 0 : Number(v)));
+  .enum(["true", "false", "0", "1"], "0 or 1 (true/false also accepted)")
+  .transform((v) => (v === "true" || v === "1" ? 1 : 0));
 
 const schema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
