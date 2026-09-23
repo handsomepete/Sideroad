@@ -1,0 +1,19 @@
+<% layout("./layout") %>
+<h1>All messages</h1>
+<p class="muted">The latest 200 texts in and out, including ones not tied to a request (for example STOP from an unknown number).</p>
+<table>
+<thead><tr><th>When</th><th>Dir</th><th>Number</th><th>Message</th><th>Linked to</th><th>Status</th></tr></thead>
+<tbody>
+<% if (!it.rows.length) { %><tr><td colspan="6" class="muted">No messages yet.</td></tr><% } %>
+<% it.rows.forEach(function (m) { %>
+<tr>
+<td><%= it.fmt(m.createdAt) %></td>
+<td><%= m.direction === 'in' ? 'In' : 'Out' %></td>
+<td><%= it.formatPhone(m.counterpartyPhone) %></td>
+<td style="white-space:pre-wrap"><%= m.body %><% if (m.mediaCount) { %> <span class="muted">(+<%= m.mediaCount %> media)</span><% } %></td>
+<td><% if (m.requestId) { %><a href="/admin/requests/<%= m.requestId %>">Request #<%= m.requestId %></a><% } else if (m.tradeId) { %><a href="/admin/trades/<%= m.tradeId %>">Trade #<%= m.tradeId %></a><% } else { %><span class="muted">none</span><% } %></td>
+<td><%= m.status %></td>
+</tr>
+<% }) %>
+</tbody>
+</table>

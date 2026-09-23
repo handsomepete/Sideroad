@@ -1,0 +1,1 @@
+<% if (it.msg) { %><div class="error" role="alert"><%= it.msg %></div><% } %>

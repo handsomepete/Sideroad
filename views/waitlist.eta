@@ -1,0 +1,41 @@
+<% layout("./layout") %>
+<% const v = it.values, e = it.errors; %>
+<form class="card" method="post" action="/waitlist" novalidate>
+<div class="eyebrow">Where we work</div>
+<h1 class="page-title">Join the waitlist</h1>
+<p class="lead">We're starting with Erin, Hillsburgh, Ballinafad and the rest of Wellington County. Further out? Leave your postal code and we'll let you know when we reach you.</p>
+<% if (Object.keys(e).length) { %><div class="alert" role="alert">Please check the highlighted fields below.</div><% } %>
+<div class="grid2">
+<div class="field<%= e.postalCode ? ' has-error' : '' %>">
+<label for="postalCode">Postal code</label>
+<input id="postalCode" name="postalCode" type="text" value="<%= v.postalCode || '' %>" placeholder="e.g. N0B 1T0" autocomplete="postal-code" required>
+<%~ include("./partials/error", { msg: e.postalCode }) %>
+</div>
+<div class="field<%= e.name ? ' has-error' : '' %>">
+<label for="name">Name <span class="hint">(optional)</span></label>
+<input id="name" name="name" type="text" value="<%= v.name || '' %>" autocomplete="name">
+<%~ include("./partials/error", { msg: e.name }) %>
+</div>
+<div class="field<%= e.email ? ' has-error' : '' %>">
+<label for="email">Email</label>
+<input id="email" name="email" type="email" value="<%= v.email || '' %>" autocomplete="email">
+<%~ include("./partials/error", { msg: e.email }) %>
+</div>
+<div class="field<%= e.mobile ? ' has-error' : '' %>">
+<label for="mobile">Or mobile number</label>
+<input id="mobile" name="mobile" type="tel" value="<%= v.mobile || '' %>" autocomplete="tel">
+<%~ include("./partials/error", { msg: e.mobile }) %>
+</div>
+</div>
+<div class="field">
+<label for="service">What would you need? <span class="hint">(optional)</span></label>
+<select id="service" name="service">
+<option value="">Not sure yet</option>
+<% it.services.forEach(function (s) { %><option value="<%= s.slug %>"<%= v.service === s.slug ? ' selected' : '' %>><%= s.label %></option>
+<% }) %>
+</select>
+</div>
+<%~ include("./partials/consent", { text: it.consentText, checked: v.consent === 'yes', error: e.consent }) %>
+<%~ include("./partials/honeypot") %>
+<button class="btn" type="submit">Let me know</button>
+</form>

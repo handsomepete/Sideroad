@@ -1,0 +1,12 @@
+<footer style="flex-grow: 1; display: flex; justify-content: space-between; align-items: flex-start; padding: 48px 80px; background: #1F2A24; color: #D5DFD8">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: Fraunces, Georgia, serif; font-size: 24px; font-weight: 700; color: #F4F1EA">Sideroad</span>
+<span style="font-size: 15px">Reliable trades for rural Ontario properties.</span>
+</div>
+<nav style="display: flex; gap: 32px; font-size: 15px">
+<a href="/" style="color: #F4F1EA; text-decoration: none">About</a>
+<a href="/#trades" style="color: #F4F1EA; text-decoration: none">For trades</a>
+<a href="/#quote" style="color: #F4F1EA; text-decoration: none">Contact</a>
+<a href="/privacy" style="color: #F4F1EA; text-decoration: none">Privacy</a>
+</nav>
+</footer>

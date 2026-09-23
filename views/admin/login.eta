@@ -1,0 +1,10 @@
+<% layout("./layout") %>
+<div class="panel" style="max-width:380px;margin:60px auto">
+<h1>Sideroad admin</h1>
+<% if (it.error) { %><div class="alert"><%= it.error %></div><% } %>
+<form method="post" action="/admin/login" style="display:flex;flex-direction:column;gap:12px">
+<label>Your name <span class="muted">(for the audit log)</span><br><input type="text" name="name" autocomplete="username" style="width:100%;box-sizing:border-box"></label>
+<label>Password<br><input type="password" name="password" autocomplete="current-password" required style="width:100%;box-sizing:border-box"></label>
+<button type="submit">Log in</button>
+</form>
+</div>

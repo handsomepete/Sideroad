@@ -1,0 +1,7 @@
+<h2>History</h2>
+<div class="panel">
+<% if (!it.rows.length) { %><div class="muted">Nothing yet.</div><% } %>
+<% it.rows.forEach(function (a) { %>
+<div class="muted"><%= it.fmt(a.createdAt) %> · <%= a.actor %> · <%= a.action %><% if (a.before && a.after && a.before.status) { %>: <%= a.before.status %> → <%= a.after.status %><% } %></div>
+<% }) %>
+</div>

@@ -1,0 +1,16 @@
+<% layout("./layout") %>
+<div class="card prose">
+<div class="eyebrow">Privacy</div>
+<h1 class="page-title">Privacy at Sideroad</h1>
+<p><strong>Draft for review before launch.</strong></p>
+<h2>What we collect</h2>
+<p>When you ask for a quote, join as a trade or join the waitlist, we collect what you type into the form: your name, mobile number, email, location, a description of the job, and any photo you choose to send. If you text us, we keep the messages and photos you send.</p>
+<h2>Why we collect it</h2>
+<p>To match your job with a local trade, to contact you about it, and to tell you when we start serving your area if you asked us to. We share job details with the trade we match you with. We don't sell your information.</p>
+<h2>Texts and emails</h2>
+<p>We only text or email you if you agreed to it on one of our forms, or if you texted us first. We keep a record of when you agreed and what you agreed to. Reply STOP to any text and we'll stop texting you. Reply START to turn texts back on.</p>
+<h2>Keeping it safe</h2>
+<p>Your information is stored on Sideroad's server and with the service providers we use for text messaging and email. Some of those providers may store information outside Canada. Only Sideroad's founders can see your information in our system.</p>
+<h2>Questions or deletion requests</h2>
+<p>Text <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a> or email us and we'll help, including deleting your information.</p>
+</div>

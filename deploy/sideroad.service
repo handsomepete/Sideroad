@@ -1,0 +1,29 @@
+# /etc/systemd/system/sideroad.service
+# No secrets in this file: the app reads /opt/sideroad/.env itself (mode 600, owned by sideroad).
+[Unit]
+Description=Sideroad web app
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=sideroad
+Group=sideroad
+WorkingDirectory=/opt/sideroad
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+
+# Hardening: the app can only write to its upload directory.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+ReadWritePaths=/var/lib/sideroad
+
+[Install]
+WantedBy=multi-user.target

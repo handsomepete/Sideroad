@@ -1,0 +1,12 @@
+# /etc/caddy/Caddyfile  (replace the domain; Caddy gets and renews the HTTPS certificate itself)
+sideroad.example.ca {
+	encode gzip
+	request_body {
+		max_size 12MB
+	}
+	reverse_proxy 127.0.0.1:3000
+}
+
+www.sideroad.example.ca {
+	redir https://sideroad.example.ca{uri} permanent
+}

@@ -1,0 +1,77 @@
+<% layout("./layout") %>
+<% const v = it.values, e = it.errors; const has = function (list, x) { return Array.isArray(list) ? list.indexOf(x) >= 0 : list === x; }; %>
+<form class="card" method="post" action="/trades/join" novalidate>
+<div class="eyebrow">For trades</div>
+<h1 class="page-title">Join as a trade</h1>
+<p class="lead">Steady local work without chasing leads. It's free to join. We review every trade and check insurance before sending any jobs.</p>
+<% if (Object.keys(e).length) { %><div class="alert" role="alert">Please check the highlighted fields below.</div><% } %>
+
+<div class="grid2">
+<div class="field<%= e.businessName ? ' has-error' : '' %>">
+<label for="businessName">Business name</label>
+<input id="businessName" name="businessName" type="text" value="<%= v.businessName || '' %>" autocomplete="organization" required>
+<%~ include("./partials/error", { msg: e.businessName }) %>
+</div>
+<div class="field<%= e.contactName ? ' has-error' : '' %>">
+<label for="contactName">Contact name</label>
+<input id="contactName" name="contactName" type="text" value="<%= v.contactName || '' %>" autocomplete="name" required>
+<%~ include("./partials/error", { msg: e.contactName }) %>
+</div>
+<div class="field<%= e.mobile ? ' has-error' : '' %>">
+<label for="mobile">Mobile number</label>
+<input id="mobile" name="mobile" type="tel" value="<%= v.mobile || '' %>" placeholder="519-555-0100" autocomplete="tel" required>
+<%~ include("./partials/error", { msg: e.mobile }) %>
+</div>
+<div class="field<%= e.email ? ' has-error' : '' %>">
+<label for="email">Email</label>
+<input id="email" name="email" type="email" value="<%= v.email || '' %>" autocomplete="email" required>
+<%~ include("./partials/error", { msg: e.email }) %>
+</div>
+</div>
+
+<div class="field<%= e.services ? ' has-error' : '' %>">
+<span class="label">Services you offer</span>
+<div class="choices">
+<% it.tradeServices.forEach(function (s) { %><label><input type="checkbox" name="services" value="<%= s.slug %>"<%= has(v.services, s.slug) ? ' checked' : '' %>> <%= s.label %></label>
+<% }) %>
+</div>
+<%~ include("./partials/error", { msg: e.services }) %>
+</div>
+
+<div class="field<%= e.towns ? ' has-error' : '' %>">
+<span class="label">Where you work</span>
+<div class="choices">
+<% it.towns.forEach(function (t) { %><label><input type="checkbox" name="towns" value="<%= t %>"<%= has(v.towns, t) ? ' checked' : '' %>> <%= t %></label>
+<% }) %>
+</div>
+<%~ include("./partials/error", { msg: e.towns }) %>
+</div>
+<div class="field<%= e.otherTowns ? ' has-error' : '' %>">
+<label for="otherTowns">Other towns or roads <span class="hint">(optional, separate with commas)</span></label>
+<input id="otherTowns" name="otherTowns" type="text" value="<%= v.otherTowns || '' %>">
+<%~ include("./partials/error", { msg: e.otherTowns }) %>
+</div>
+
+<div class="grid2">
+<div class="field<%= e.insuranceProvider ? ' has-error' : '' %>">
+<label for="insuranceProvider">Liability insurance provider</label>
+<input id="insuranceProvider" name="insuranceProvider" type="text" value="<%= v.insuranceProvider || '' %>" required>
+<%~ include("./partials/error", { msg: e.insuranceProvider }) %>
+</div>
+<div class="field<%= e.insuranceExpiry ? ' has-error' : '' %>">
+<label for="insuranceExpiry">Policy expiry date</label>
+<input id="insuranceExpiry" name="insuranceExpiry" type="date" value="<%= v.insuranceExpiry || '' %>" required>
+<%~ include("./partials/error", { msg: e.insuranceExpiry }) %>
+</div>
+</div>
+
+<div class="field<%= e.notes ? ' has-error' : '' %>">
+<label for="notes">Anything else? <span class="hint">(optional: equipment, availability, certifications)</span></label>
+<textarea id="notes" name="notes"><%= v.notes || '' %></textarea>
+<%~ include("./partials/error", { msg: e.notes }) %>
+</div>
+
+<%~ include("./partials/consent", { text: it.consentText, checked: v.consent === 'yes', error: e.consent }) %>
+<%~ include("./partials/honeypot") %>
+<button class="btn" type="submit">Join Sideroad</button>
+</form>
