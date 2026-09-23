@@ -12,5 +12,5 @@
 <h2>Keeping it safe</h2>
 <p>Your information is stored on Sideroad's server and with the service providers we use for text messaging and email. Some of those providers may store information outside Canada. Only Sideroad's founders can see your information in our system.</p>
 <h2>Questions or deletion requests</h2>
-<p>Text <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a> or email us and we'll help, including deleting your information.</p>
+<p><% if (it.phoneE164) { %>Text <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a> or email<% } else { %>Email<% } %> us and we'll help, including deleting your information.</p>
 </div>

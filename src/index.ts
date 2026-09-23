@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { chmod, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { buildApp } from "./app.js";
-import { loadConfig } from "./config.js";
+import { loadConfig, twilioSettings } from "./config.js";
 import { createDb } from "./db/client.js";
 import { loadCoverage } from "./domain/coverage.js";
 import { createSmtpMailer } from "./services/notify.js";
@@ -15,13 +15,21 @@ const config = loadConfig();
 const { db, pool } = createDb(config.DATABASE_URL);
 const coverage = loadCoverage(fileURLToPath(new URL("../config/coverage.json", import.meta.url)));
 
+// Used only for startup warnings, before Fastify's own logger exists.
+const startupLog = {
+  info: (_o: unknown, msg?: string) => console.log(msg),
+  warn: (_o: unknown, msg?: string) => console.warn(msg),
+  error: (o: unknown, msg?: string) => console.error(msg, o),
+};
+if (!twilioSettings(config)) console.warn("texting is off: TWILIO_ settings are not set");
+
 const app = await buildApp(
   {
     config,
     db,
     coverage,
     sms: createTwilioSender(config),
-    mailer: createSmtpMailer(config),
+    mailer: createSmtpMailer(config, startupLog),
     fetchMedia: createTwilioMediaFetcher(config),
   },
   {

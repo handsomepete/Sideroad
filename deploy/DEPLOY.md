@@ -110,13 +110,14 @@ nano /opt/sideroad/app/.env
 | `NODE_ENV` | `production` |
 | `SOCKET_PATH` | `/run/sideroad/sideroad.sock` |
 | `PUBLIC_BASE_URL` | `https://your-domain` (exactly, no trailing slash) |
-| `TRUST_PROXY` | `true` |
+| `TRUST_PROXY` | `1` (one proxy in front: Caddy, nginx or cloudflared) |
 | `DATABASE_URL` | `postgres://sideroad@/sideroad?host=/var/run/postgresql` |
 | `UPLOAD_DIR` | `/var/lib/sideroad/uploads` |
 | `SESSION_SECRET` | output of `openssl rand -base64 48` |
 | `ADMIN_PASSWORD_HASH` | from `npm run hash-password`, in single quotes |
 
-Plus the Twilio, SMTP and alert-email values described in `.env.example`. Then set up the database and
+Plus the Twilio, SMTP and alert-email values described in `.env.example`. Both groups are optional:
+leave them blank to go live with just the web forms and add them later (then `systemctl restart sideroad`). Then set up the database and
 drop the dev tools:
 
 ```bash

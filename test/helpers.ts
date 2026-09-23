@@ -25,7 +25,7 @@ export async function testConfig(overrides: Partial<Config> = {}): Promise<Confi
     HOST: "127.0.0.1",
     PORT: 0,
     PUBLIC_BASE_URL: BASE_URL,
-    TRUST_PROXY: false,
+    TRUST_PROXY: 0,
     DATABASE_URL: TEST_DATABASE_URL,
     UPLOAD_DIR: mkdtempSync(join(tmpdir(), "sideroad-uploads-")),
     SESSION_SECRET: "x".repeat(40),
@@ -41,6 +41,7 @@ export async function testConfig(overrides: Partial<Config> = {}): Promise<Confi
 }
 
 export class FakeSms implements SmsSender {
+  enabled = true;
   sent: { to: string; body: string }[] = [];
   fail = false;
   async send(to: string, body: string) {
@@ -51,6 +52,7 @@ export class FakeSms implements SmsSender {
 }
 
 export class FakeMailer implements Mailer {
+  enabled = true;
   sent: { to: string; subject: string; text: string }[] = [];
   fail = false;
   async send(msg: { to: string; subject: string; text: string }) {
@@ -69,7 +71,9 @@ export async function resetDb() {
     consents, sms_opt_outs, audit_log restart identity cascade`);
 }
 
-export async function createTestApp(opts: { config?: Partial<Config>; fetchMedia?: MediaFetcher; now?: () => Date } = {}) {
+export async function createTestApp(
+  opts: { config?: Partial<Config>; fetchMedia?: MediaFetcher; now?: () => Date; rateLimits?: boolean } = {},
+) {
   const sms = new FakeSms();
   const mailer = new FakeMailer();
   const deps: Deps = {
@@ -81,7 +85,7 @@ export async function createTestApp(opts: { config?: Partial<Config>; fetchMedia
     fetchMedia: opts.fetchMedia ?? (async () => ({ buffer: JPEG, contentType: "image/jpeg" })),
     now: opts.now,
   };
-  const app = await buildApp(deps, { rateLimits: false });
+  const app = await buildApp(deps, { rateLimits: opts.rateLimits ?? false });
   return { app, deps, sms, mailer, db: shared.db };
 }
 

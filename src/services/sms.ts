@@ -1,6 +1,6 @@
 import { and, desc, eq, gt, inArray, sql } from "drizzle-orm";
 import twilio from "twilio";
-import type { Config } from "../config.js";
+import { twilioSettings, type Config } from "../config.js";
 import type { Deps, Logger, MediaFetcher, SmsSender } from "../deps.js";
 import { consents, homeowners, messages, photos, requests, smsOptOuts, trades } from "../db/schema.js";
 import { smsKeyword } from "../domain/consent.js";
@@ -16,12 +16,22 @@ const OPEN_STATUSES = ["NEW", "CONTACTED", "MATCHED"] as const;
 const MAX_MEDIA = 5;
 
 export function createTwilioSender(config: Config): SmsSender {
-  const client = twilio(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
+  const tw = twilioSettings(config);
+  if (!tw) {
+    return {
+      enabled: false,
+      async send() {
+        throw new SendBlockedError("Texting isn't set up yet: add the TWILIO_ settings to .env and restart.");
+      },
+    };
+  }
+  const client = twilio(tw.accountSid, tw.authToken);
   return {
+    enabled: true,
     async send(to, body) {
       const msg = await client.messages.create({
         to,
-        from: config.TWILIO_PHONE_NUMBER,
+        from: tw.phoneNumber,
         body,
         statusCallback: `${config.PUBLIC_BASE_URL}/webhooks/twilio/status`,
       });
@@ -31,8 +41,10 @@ export function createTwilioSender(config: Config): SmsSender {
 }
 
 export function createTwilioMediaFetcher(config: Config): MediaFetcher {
-  const auth = Buffer.from(`${config.TWILIO_ACCOUNT_SID}:${config.TWILIO_AUTH_TOKEN}`).toString("base64");
+  const tw = twilioSettings(config);
+  const auth = tw ? Buffer.from(`${tw.accountSid}:${tw.authToken}`).toString("base64") : null;
   return async (url) => {
+    if (!auth) throw new Error("Twilio is not configured");
     // Only ever fetch from Twilio: the URL comes from a signed webhook, but be strict anyway.
     if (!/^https:\/\/api\.twilio\.com\//.test(url)) throw new Error(`refusing to fetch media from ${url}`);
     const res = await fetch(url, { headers: { Authorization: `Basic ${auth}` }, signal: AbortSignal.timeout(20_000) });
@@ -41,14 +53,16 @@ export function createTwilioMediaFetcher(config: Config): MediaFetcher {
   };
 }
 
+/** Without Twilio configured there is no token to check against, so every webhook is rejected. */
 export function isValidTwilioSignature(
   config: Config,
   signature: string | undefined,
   path: string,
   params: Record<string, unknown>,
 ): boolean {
-  if (!signature) return false;
-  return twilio.validateRequest(config.TWILIO_AUTH_TOKEN, signature, `${config.PUBLIC_BASE_URL}${path}`, params);
+  const tw = twilioSettings(config);
+  if (!signature || !tw) return false;
+  return twilio.validateRequest(tw.authToken, signature, `${config.PUBLIC_BASE_URL}${path}`, params);
 }
 
 export type InboundParams = Record<string, string | undefined>;
@@ -244,6 +258,7 @@ export async function sendAdminSms(
   body: string,
   admin: string,
 ): Promise<{ messageId: number }> {
+  if (!deps.sms.enabled) throw new SendBlockedError("Texting isn't set up yet: add the TWILIO_ settings to .env and restart.");
   const text = body.trim();
   if (!text) throw new SendBlockedError("Message is empty.");
   if (text.length > 1600) throw new SendBlockedError("Message is too long (1600 characters maximum).");
