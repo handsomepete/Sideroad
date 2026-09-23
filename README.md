@@ -36,9 +36,10 @@ npm run migrate:dev
 npm run dev                    # http://localhost:3000, admin at /admin
 ```
 
-The app refuses to start if a required setting is missing. Twilio and SMTP need real values
-to actually send, but forms and the dashboard work locally without them: notification emails fail
-and are logged, and the request is still saved.
+The app refuses to start if a required setting is missing. Twilio and SMTP are optional: leave
+them blank and the forms and dashboard work without them. The "text us" lines are hidden, email
+alerts are skipped, and the dashboard explains that texting isn't set up. A half-filled Twilio or
+SMTP group is an error, so a typo can't silently switch either one off.
 
 To try inbound SMS locally, expose port 3000 with a tunnel (for example `cloudflared tunnel --url
 http://localhost:3000`), set `PUBLIC_BASE_URL` to the tunnel URL, and point a Twilio number's

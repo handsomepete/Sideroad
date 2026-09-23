@@ -3,7 +3,7 @@
 <form class="card" method="post" action="/request" enctype="multipart/form-data" novalidate>
 <div class="eyebrow">Get a quote</div>
 <h1 class="page-title">Tell us the job</h1>
-<p class="lead">A few details and we'll match you with a vetted local trade. Prefer to text? Send the job to <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a>.</p>
+<p class="lead">A few details and we'll match you with a vetted local trade.<% if (it.phoneE164) { %> Prefer to text? Send the job to <a href="sms:<%= it.phoneE164 %>"><%= it.phoneDisplay %></a>.<% } %></p>
 <% if (Object.keys(e).length) { %><div class="alert" role="alert">Please check the highlighted fields below.</div><% } %>
 
 <div class="grid2">

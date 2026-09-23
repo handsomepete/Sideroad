@@ -1,12 +1,18 @@
 import nodemailer from "nodemailer";
-import type { Config } from "../config.js";
+import { mailSettings, type Config } from "../config.js";
 import type { Logger, Mailer } from "../deps.js";
 
-export function createSmtpMailer(config: Config): Mailer {
-  const transport = nodemailer.createTransport(config.SMTP_URL);
+export function createSmtpMailer(config: Config, log: Logger): Mailer {
+  const mail = mailSettings(config);
+  if (!mail) {
+    log.warn({}, "email alerts are off: SMTP_URL, MAIL_FROM and ADMIN_NOTIFY_EMAIL are not set");
+    return { enabled: false, async send() {} };
+  }
+  const transport = nodemailer.createTransport(mail.smtpUrl);
   return {
+    enabled: true,
     async send({ to, subject, text }) {
-      await transport.sendMail({ from: config.MAIL_FROM, to, subject, text });
+      await transport.sendMail({ from: mail.from, to, subject, text });
     },
   };
 }
@@ -22,9 +28,11 @@ export async function notifyAdmin(
   lines: string[],
   adminPath: string,
 ): Promise<void> {
+  const to = deps.config.ADMIN_NOTIFY_EMAIL;
+  if (!deps.mailer.enabled || !to) return;
   const text = [...lines, "", `Open in dashboard: ${deps.config.PUBLIC_BASE_URL}${adminPath}`].join("\n");
   try {
-    await deps.mailer.send({ to: deps.config.ADMIN_NOTIFY_EMAIL, subject: `[Sideroad] ${subject}`, text });
+    await deps.mailer.send({ to, subject: `[Sideroad] ${subject}`, text });
   } catch (err) {
     log.error({ err, subject }, "admin notification email failed");
   }

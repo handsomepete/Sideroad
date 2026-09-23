@@ -37,6 +37,17 @@ const CSP = [
   "base-uri 'none'",
 ].join("; ");
 
+/**
+ * Trust X-Forwarded-For only from a reverse proxy on this machine (loopback, or the Unix socket, which
+ * has no address), and only `hops` entries deep. The client's own X-Forwarded-For value is never
+ * believed, so it can't dodge rate limits by inventing addresses.
+ */
+export function localProxyTrust(hops: number) {
+  const LOCAL = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1"]);
+  return (address: string | undefined, hop: number) =>
+    hop < hops && (hop > 0 || !address || LOCAL.has(address));
+}
+
 export interface AppOptions {
   logger?: FastifyServerOptions["logger"];
   /** Tests turn this off so they can submit forms freely. */
@@ -46,7 +57,7 @@ export interface AppOptions {
 export async function buildApp(deps: Deps, opts: AppOptions = {}) {
   const app = Fastify({
     logger: opts.logger ?? false,
-    trustProxy: deps.config.TRUST_PROXY,
+    trustProxy: deps.config.TRUST_PROXY > 0 ? localProxyTrust(deps.config.TRUST_PROXY) : false,
     bodyLimit: 1024 * 1024,
   });
   app.decorate("deps", deps);
@@ -58,8 +69,9 @@ export async function buildApp(deps: Deps, opts: AppOptions = {}) {
     serviceLabel,
     formatPhone,
     fmt: formatDateTime,
-    phoneE164: deps.config.TWILIO_PHONE_NUMBER,
-    phoneDisplay: formatPhone(deps.config.TWILIO_PHONE_NUMBER),
+    // Null until Twilio is set up; templates then leave out the "text us" lines.
+    phoneE164: deps.config.TWILIO_PHONE_NUMBER ?? null,
+    phoneDisplay: deps.config.TWILIO_PHONE_NUMBER ? formatPhone(deps.config.TWILIO_PHONE_NUMBER) : null,
   };
   app.decorateReply("view", function (template: string, data: Record<string, unknown> = {}) {
     return this.type("text/html; charset=utf-8").send(eta.render(template, { ...globals, ...data }));
