@@ -34,7 +34,7 @@ function escapeRe(s: string): string {
 /**
  * Decide whether a location is in the service area.
  * - A postal code is checked against the prefix list. "out" is only returned when a list is configured,
- *   so an empty list never turns real customers away.
+ *   so an empty list never turns real customers away, and never when the text names a covered town.
  * - Otherwise a covered town name anywhere in the text counts as "in".
  * - Anything else (a bare road name) is "unknown" and left for a human to check.
  */
@@ -51,7 +51,10 @@ export function classifyLocation(
     const compact = postalCode.replace(/\s/g, "");
     const prefixes = cfg.postalPrefixes.map((p) => p.replace(/\s/g, "").toUpperCase()).filter(Boolean);
     if (prefixes.length === 0) return { coverage: town ? "in" : "unknown", postalCode, town };
-    return { coverage: prefixes.some((p) => compact.startsWith(p)) ? "in" : "out", postalCode, town };
+    if (prefixes.some((p) => compact.startsWith(p))) return { coverage: "in", postalCode, town };
+    // A covered town with an unlisted code (e.g. an edge-of-town address on a neighbouring mail route)
+    // goes to a human rather than the waitlist.
+    return { coverage: town ? "unknown" : "out", postalCode, town };
   }
   return { coverage: town ? "in" : "unknown", postalCode: null, town };
 }
