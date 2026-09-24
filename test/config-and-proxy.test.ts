@@ -135,3 +135,33 @@ describe("running before Twilio and email are set up", () => {
     expect(t.sms.sent).toHaveLength(0);
   });
 });
+
+describe("public contact address", () => {
+  it("is checked as an email address when set", () => {
+    expect(() => loadConfig({ ...base, CONTACT_EMAIL: "not an email" })).toThrow(/CONTACT_EMAIL/);
+    expect(loadConfig({ ...base, CONTACT_EMAIL: "" }).CONTACT_EMAIL).toBeUndefined();
+  });
+
+  it("shows on the privacy page and in the footer when set", async () => {
+    const t = await createTestApp({ config: { CONTACT_EMAIL: "hello@sideroad.test" } });
+    try {
+      const privacy = await t.app.inject({ url: "/privacy" });
+      expect(privacy.body).toContain('href="mailto:hello@sideroad.test">hello@sideroad.test</a>');
+      const landing = await t.app.inject({ url: "/" });
+      expect(landing.body).toContain('href="mailto:hello@sideroad.test"');
+    } finally {
+      await t.app.close();
+    }
+  });
+
+  it("falls back to the request form rather than a dangling 'email us' when not set", async () => {
+    const t = await createTestApp({ config: { TWILIO_PHONE_NUMBER: undefined, TWILIO_ACCOUNT_SID: undefined, TWILIO_AUTH_TOKEN: undefined } });
+    try {
+      const privacy = await t.app.inject({ url: "/privacy" });
+      expect(privacy.body).not.toContain("mailto:");
+      expect(privacy.body).toContain('href="/#quote">request form</a>');
+    } finally {
+      await t.app.close();
+    }
+  });
+});

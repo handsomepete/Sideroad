@@ -6,7 +6,7 @@
 <nav style="display: flex; gap: 32px; font-size: 15px">
 <a href="/" style="color: #F4F1EA; text-decoration: none">About</a>
 <a href="/#trades" style="color: #F4F1EA; text-decoration: none">For trades</a>
-<a href="/#quote" style="color: #F4F1EA; text-decoration: none">Contact</a>
+<a href="<%= it.contactEmail ? 'mailto:' + it.contactEmail : '/#quote' %>" style="color: #F4F1EA; text-decoration: none">Contact</a>
 <a href="/privacy" style="color: #F4F1EA; text-decoration: none">Privacy</a>
 </nav>
 </footer>
