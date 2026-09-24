@@ -115,6 +115,7 @@ nano /opt/sideroad/app/.env
 | `UPLOAD_DIR` | `/var/lib/sideroad/uploads` |
 | `SESSION_SECRET` | output of `openssl rand -base64 48` |
 | `ADMIN_PASSWORD_HASH` | from `npm run hash-password`, in single quotes |
+| `CONTACT_EMAIL` | the public address people write to about consent or deletion (shown on the privacy page and footer) |
 
 Plus the Twilio, SMTP and alert-email values described in `.env.example`. Both groups are optional:
 leave them blank to go live with just the web forms and add them later (then `systemctl restart sideroad`). Then set up the database and

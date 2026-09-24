@@ -36,6 +36,10 @@ const schema = z.object({
   SMTP_URL: optional(z.string()),
   MAIL_FROM: optional(z.string()),
   ADMIN_NOTIFY_EMAIL: optional(z.string().min(3)),
+
+  // Public contact address shown on the privacy page and footer. Optional, but people need a way to
+  // reach you to withdraw consent or ask for deletion, so set it before launch.
+  CONTACT_EMAIL: optional(z.email("CONTACT_EMAIL must be an email address")),
 });
 
 const GROUPS = {

@@ -71,6 +71,8 @@ export async function buildApp(deps: Deps, opts: AppOptions = {}) {
     // Null until Twilio is set up; templates then leave out the "text us" lines.
     phoneE164: deps.config.TWILIO_PHONE_NUMBER ?? null,
     phoneDisplay: deps.config.TWILIO_PHONE_NUMBER ? formatPhone(deps.config.TWILIO_PHONE_NUMBER) : null,
+    // Null until set; the privacy page and footer then fall back to the quote form.
+    contactEmail: deps.config.CONTACT_EMAIL ?? null,
   };
   app.decorateReply("view", function (template: string, data: Record<string, unknown> = {}) {
     return this.type("text/html; charset=utf-8").send(eta.render(template, { ...globals, ...data }));
