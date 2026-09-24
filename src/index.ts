@@ -22,6 +22,7 @@ const startupLog = {
   error: (o: unknown, msg?: string) => console.error(msg, o),
 };
 if (!twilioSettings(config)) console.warn("texting is off: TWILIO_ settings are not set");
+if (!config.CONTACT_EMAIL) console.warn("no public contact email: set CONTACT_EMAIL so people can reach you about consent or deletion");
 
 const app = await buildApp(
   {
